@@ -17,9 +17,15 @@ class _ListScreenState extends State<ListScreen> {
   bool _isLimitOfFood = false;
   bool _isSortAsc = false;
 
-  int _nowYear = DateTime.now().year;
-  int _nowMonth = DateTime.now().month;
-  int _nowDay = DateTime.now().day;
+  int _nowYear = DateTime
+      .now()
+      .year;
+  int _nowMonth = DateTime
+      .now()
+      .month;
+  int _nowDay = DateTime
+      .now()
+      .day;
 
   String _intDifferenceDate = "";
 
@@ -55,7 +61,7 @@ class _ListScreenState extends State<ListScreen> {
       ),
       body: Padding(
         padding:
-            const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
+        const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0, bottom: 8.0),
         child: _wordListWidget(),
       ),
     );
@@ -87,7 +93,8 @@ class _ListScreenState extends State<ListScreen> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => EditScreen(
+            builder: (context) =>
+                EditScreen(
                   status: EditStatus.ADD,
                 )));
   }
@@ -151,16 +158,38 @@ class _ListScreenState extends State<ListScreen> {
   }
 
   _deleteWord(Word selectedWord) async {
-    await database.deleteWord(selectedWord);
-    _getAllWords();
-    Toast.show("削除しました", context, duration: Toast.LENGTH_LONG);
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) =>
+        AlertDialog(
+          title: Text(selectedWord.strFoodName),
+          content: Text("削除してもよろしいですか？"),
+          actions: <Widget>[
+            FlatButton(
+              child: Text("はい"),
+              onPressed: () async {
+                await database.deleteWord(selectedWord);
+                Toast.show("削除しました", context, duration: Toast.LENGTH_LONG);
+                _getAllWords();
+                Navigator.pop(context);
+              },
+            ),
+            FlatButton(
+              child: Text("いいえ"),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ],
+        ),
+    );
   }
 
   _editWord(Word selectedWord) {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-            builder: (context) => EditScreen(
+            builder: (context) =>
+                EditScreen(
                   status: EditStatus.EDIT,
                   word: selectedWord,
                 )));

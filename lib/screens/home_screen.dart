@@ -6,42 +6,40 @@ import 'package:path/path.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("食材管理"),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("食材管理"),
 //          backgroundColor: Colors,
-          centerTitle: true,
-        ),
-        body: Stack(
-          children: <Widget>[
-          Center(child: Image.asset("assets/images/refrigerator_white.png", width: double.infinity, height: double.infinity,)),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: <Widget>[
+        Center(child: Image.asset("assets/images/refrigerator_white.png", width: double.infinity, height: double.infinity,)),
 //            Padding(
 //              padding: const EdgeInsets.all(20.0),
 //              child: Center(child: Image.asset("assets/images/refrigerator_gray.png")),
 //            ),
 //            Center(child: Image.asset("assets/images/refrigerator_gray_2.png")),
-            Center(
-              child: Column(
-                children: <Widget>[
+          Center(
+            child: Column(
+              children: <Widget>[
 //                  SizedBox(height: 150.0,),
-                  Expanded(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: FlatButton(
-                        child: Text(""),
-                        onPressed: () => _goToListScreen(context),
-                      ),
+                Expanded(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FlatButton(
+                      child: Text(""),
+                      onPressed: () => _goToListScreen(context),
                     ),
                   ),
+                ),
 //                  _buttonOfVegetables(context),
 //                  SizedBox(height: 150.0,),
 //                  _buttonOfVegetables(context),
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

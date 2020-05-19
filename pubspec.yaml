@@ -38,6 +38,14 @@ dev_dependencies:
     sdk: flutter
   moor_generator: 3.0.0
   build_runner:
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/refrigerator_white.jpg"
+#  adaptive_icon_background: "#dcdcdc"
+#  adaptive_icon_foreground: "assets/images/refrigerator_white.jpg"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
