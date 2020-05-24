@@ -7,7 +7,7 @@ class InputCondition extends StatefulWidget {
 }
 
 class _InputConditionState extends State<InputCondition> {
-  String _inputDate = "";
+  String _inputDate = "日付入力";
   DateTime datetime;
 
   TextEditingController _controller;
@@ -26,6 +26,8 @@ class _InputConditionState extends State<InputCondition> {
   int _numberOfSleep = 0;
   int _numberOfExercise = 0;
   int _numberOfStress = 0;
+
+  String _titleText = "日付入力";
 
   @override
   void initState() {
@@ -61,7 +63,11 @@ class _InputConditionState extends State<InputCondition> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("記録"),
+        title: FlatButton(
+          color: Colors.white30,
+          child: Text(_inputDate, style: TextStyle(fontSize: 20.0),),
+          onPressed: () => _datePicker(context),
+        ),
         centerTitle: true,
         actions: <Widget>[
           IconButton(
@@ -75,7 +81,7 @@ class _InputConditionState extends State<InputCondition> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            _conditionDate(),
+//            _conditionDate(),
             //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。
             _inputSkinCondition(),
             _inputMealCondition(),
@@ -90,18 +96,18 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _conditionDate() {
-    return Column(
-      children: <Widget>[
-        RaisedButton(
-          child: Text("日付入力"),
-          onPressed: () => _datePicker(context),
-        ),
-        Text(_inputDate, style: TextStyle(fontSize: 30.0),),
-        SizedBox(height: 20.0,)
-      ],
-    );
-  }
+//  Widget _conditionDate() {
+//    return Column(
+//      children: <Widget>[
+//        RaisedButton(
+//          child: Text("日付入力"),
+//          onPressed: () => _datePicker(context),
+//        ),
+//        Text(_inputDate, style: TextStyle(fontSize: 30.0),),
+//        SizedBox(height: 20.0,)
+//      ],
+//    );
+//  }
 
   Future<void> _datePicker(BuildContext context) async {
     datetime = await showDatePicker(
@@ -293,4 +299,5 @@ class _InputConditionState extends State<InputCondition> {
       ),
     );
   }
+
 }
