@@ -33,7 +33,7 @@ class _InputConditionState extends State<InputCondition> {
   void initState() {
     super.initState();
     _setMenuItems();
-    _numberOfSkin = _menuItems[0].value;
+    _numberOfSkin = _menuItems[4].value;
     _numberOfMeal = _menuItems[0].value;
     _numberOfDefecation = _menuItems[0].value;
     _numberOfSleep = _menuItems[0].value;
@@ -82,7 +82,7 @@ class _InputConditionState extends State<InputCondition> {
         child: Column(
           children: <Widget>[
 //            _conditionDate(),
-            //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。
+            //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。,
             _inputSkinCondition(_numberOfSkin),
             _inputMealCondition(),
             _inputDefecation(),
@@ -124,7 +124,7 @@ class _InputConditionState extends State<InputCondition> {
     }
   }
 
-  Widget _inputSkinCondition(int value) {
+  Widget _inputSkinCondition(int data) {
     return SizedBox(
       width: double.infinity,
       child: Row(
@@ -135,11 +135,12 @@ class _InputConditionState extends State<InputCondition> {
             child: Center(
               child: DropdownButton(
                 items: _menuItems,
-                value: value,
+                value: data,
                 style: TextStyle(fontSize: 20.0),
                 onChanged: (selectedValue) {
                   setState(() {
-                    value = selectedValue;
+                    data = selectedValue;
+                    print(data);
                   });
                 },
               ),
