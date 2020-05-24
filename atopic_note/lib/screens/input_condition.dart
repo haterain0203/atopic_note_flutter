@@ -83,7 +83,7 @@ class _InputConditionState extends State<InputCondition> {
           children: <Widget>[
 //            _conditionDate(),
             //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。
-            _inputSkinCondition(),
+            _inputSkinCondition(_numberOfSkin),
             _inputMealCondition(),
             _inputDefecation(),
             _inputSleep(),
@@ -124,7 +124,7 @@ class _InputConditionState extends State<InputCondition> {
     }
   }
 
-  Widget _inputSkinCondition() {
+  Widget _inputSkinCondition(int value) {
     return SizedBox(
       width: double.infinity,
       child: Row(
@@ -135,11 +135,11 @@ class _InputConditionState extends State<InputCondition> {
             child: Center(
               child: DropdownButton(
                 items: _menuItems,
-                value: _numberOfSkin,
+                value: value,
                 style: TextStyle(fontSize: 20.0),
                 onChanged: (selectedValue) {
                   setState(() {
-                    _numberOfSkin = selectedValue;
+                    value = selectedValue;
                   });
                 },
               ),
