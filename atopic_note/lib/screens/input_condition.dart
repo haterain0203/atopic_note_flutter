@@ -13,6 +13,7 @@ class _InputConditionState extends State<InputCondition> {
   TextEditingController _controller;
 
   List<DropdownMenuItem<int>> _menuItems = List();
+  int _menuItem_0 = 0;
   int _menuItem_1 = 1;
   int _menuItem_2 = 2;
   int _menuItem_3 = 3;
@@ -41,6 +42,10 @@ class _InputConditionState extends State<InputCondition> {
   void _setMenuItems() {
     _menuItems
       ..add(DropdownMenuItem(
+        value: _menuItem_0,
+        child: Text("ー"),
+      ))
+      ..add(DropdownMenuItem(
           value: _menuItem_1, child: Text(_menuItem_1.toString())))
       ..add(DropdownMenuItem(
           value: _menuItem_2, child: Text(_menuItem_2.toString())))
@@ -66,29 +71,34 @@ class _InputConditionState extends State<InputCondition> {
           )
         ],
       ),
-      body: Column(
-        children: <Widget>[
-          _conditionDate(),
-          _inputNumbers("肌の調子は？", _numberOfSkin),
-          _inputNumbers("食生活は？", _numberOfMeal),
-          _inputNumbers("お通じは？", _numberOfDefecation),
-          _inputNumbers("睡眠は？", _numberOfSleep),
-          _inputNumbers("運動は？", _numberOfExercise),
-          _inputNumbers("ストレスは？", _numberOfStress),
-          _inputComment(),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            _conditionDate(),
+            //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。
+            _inputSkinCondition(),
+            _inputMealCondition(),
+            _inputDefecation(),
+            _inputSleep(),
+            _inputExercise(),
+            _inputStress(),
+            _inputComment(),
+          ],
+        ),
       ),
     );
   }
 
   Widget _conditionDate() {
-    return Row(
+    return Column(
       children: <Widget>[
-        Text(_inputDate),
         RaisedButton(
           child: Text("日付入力"),
-          onPressed: () => _datePicker(context), //TODO datepicker実装
+          onPressed: () => _datePicker(context),
         ),
+        Text(_inputDate, style: TextStyle(fontSize: 30.0),),
+        SizedBox(height: 20.0,)
       ],
     );
   }
@@ -103,26 +113,175 @@ class _InputConditionState extends State<InputCondition> {
 
     if (datetime != null) {
       setState(() {
-        _inputDate = DateFormat("yyyy/MM/dd").format(datetime);
+        _inputDate = DateFormat("yyyy/MM/dd/(EEE)").format(datetime);
       });
     }
   }
 
-  Widget _inputNumbers(String text, int value) {
-    return Row(
-      children: <Widget>[
-        Text(text),
-        DropdownButton(
-          items: _menuItems,
-          value: value,
-          onChanged: (selectedValue) {
-            setState(() {
-              value = selectedValue;
-            });
-          },
-        )
-      ],
+  Widget _inputSkinCondition() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("肌の調子は？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfSkin,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfSkin = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
     );
+  }
+
+  Widget _inputMealCondition() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("食生活は？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfMeal,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfMeal = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inputDefecation() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("排便は？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfDefecation,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfDefecation = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inputSleep() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("睡眠は？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfSleep,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfSleep = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inputExercise() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("運動は？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfExercise,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfExercise = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _inputStress() {
+    return SizedBox(
+      width: double.infinity,
+      child: Row(
+        children: <Widget>[
+          _textPart("ストレスは？"),
+          Expanded(
+            flex: 1,
+            child: Center(
+              child: DropdownButton(
+                items: _menuItems,
+                value: _numberOfStress,
+                style: TextStyle(fontSize: 20.0),
+                onChanged: (selectedValue) {
+                  setState(() {
+                    _numberOfStress = selectedValue;
+                  });
+                },
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _textPart(String text) {
+    return Expanded(
+        flex: 2,
+        child: Center(
+            child: Text(
+          text,
+          style: TextStyle(fontSize: 20.0),
+        )));
   }
 
   Widget _inputComment() {
