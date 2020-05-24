@@ -33,7 +33,7 @@ class _InputConditionState extends State<InputCondition> {
   void initState() {
     super.initState();
     _setMenuItems();
-    _numberOfSkin = _menuItems[4].value;
+    _numberOfSkin = _menuItems[0].value;
     _numberOfMeal = _menuItems[0].value;
     _numberOfDefecation = _menuItems[0].value;
     _numberOfSleep = _menuItems[0].value;
@@ -83,9 +83,10 @@ class _InputConditionState extends State<InputCondition> {
           children: <Widget>[
 //            _conditionDate(),
             //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。,
-            _inputSkinCondition(_numberOfSkin),
-            _inputMealCondition(),
-            _inputDefecation(),
+            //TODO できたと思ったけど、やはり思ったように動かない
+            _inputNumbers("肌の調子は？", _numberOfSkin),
+            _inputNumbers("食生活は？", _numberOfMeal),
+            _inputNumbers("排便は？", _numberOfDefecation),
             _inputSleep(),
             _inputExercise(),
             _inputStress(),
@@ -124,12 +125,12 @@ class _InputConditionState extends State<InputCondition> {
     }
   }
 
-  Widget _inputSkinCondition(int data) {
+  Widget _inputNumbers(String text, int data) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("肌の調子は？"),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -139,8 +140,18 @@ class _InputConditionState extends State<InputCondition> {
                 style: TextStyle(fontSize: 20.0),
                 onChanged: (selectedValue) {
                   setState(() {
-                    data = selectedValue;
-                    print(data);
+                    if (data == _numberOfSkin) {
+                      _numberOfSkin = selectedValue;
+                      return;
+                    }
+                    if (data == _numberOfMeal){
+                      _numberOfMeal = selectedValue;
+                      return;
+                    }
+                    if (data == _numberOfDefecation) {
+                      _numberOfDefecation = selectedValue;
+                      return;
+                    }
                   });
                 },
               ),
