@@ -95,7 +95,7 @@ class _InputConditionState extends State<InputCondition> {
             icon: Icon(Icons.today, color: Colors.white,),
             label: Text(
               _inputDate,
-              style: TextStyle(fontSize: 18.0, color: Colors.white),
+              style: TextStyle(fontSize: 15.0, color: Colors.white),
             ),
             onPressed: () => _datePicker(context),
           ),
@@ -140,6 +140,9 @@ class _InputConditionState extends State<InputCondition> {
                 padding: const EdgeInsets.only(left: 30.0),
                 child: _inputStress("ストレスは？"),
               ),
+              SizedBox(
+                height: 10.0,
+              ),
               Container(
                   padding: const EdgeInsets.only(left: 30.0),
                   alignment: Alignment.bottomLeft,
@@ -148,7 +151,7 @@ class _InputConditionState extends State<InputCondition> {
                     style: TextStyle(fontSize: 15.0),
                   )),
               _inputComment(),
-              SizedBox(height: 60.0,),
+              SizedBox(height: 45.0,),
               _buttonOfRegister(),
             ],
           ),
@@ -380,15 +383,15 @@ class _InputConditionState extends State<InputCondition> {
 
   Widget _buttonOfRegister() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
       child: SizedBox(
         width: double.infinity,
         child: RaisedButton.icon(
             shape: StadiumBorder(),
-            color: Colors.pink,
+            color: Colors.red,
             onPressed: () => print("登録"),
             icon: Icon(Icons.done_outline, color: Colors.white,),
-            label: Text("登録", style: TextStyle(fontSize: 25.0, color: Colors.white, fontWeight: FontWeight.w600),)),
+            label: Text("登録", style: TextStyle(fontSize: 20.0, color: Colors.white, fontWeight: FontWeight.w600),)),
       ),
     );
   }
