@@ -1,3 +1,4 @@
+import 'package:atopicnote/parts/original_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -9,6 +10,26 @@ class InputCondition extends StatefulWidget {
 class _InputConditionState extends State<InputCondition> {
   String _inputDate = "日付入力";
   DateTime datetime;
+
+//TODO bottomNavigationBarはclassで外出しして作成（本来の実装方法ではないっぽいが）
+  //TODO このままの作り方だと、画面遷移時のアニメーションが残っていることが課題
+//  int _screens = 0;
+//  List<BottomNavigationBarItem> myBottomNavigationBar() {
+//    return [
+//      BottomNavigationBarItem(
+//        icon: Icon(Icons.create),
+//            title: Text("入力"),
+//      ),
+//      BottomNavigationBarItem(
+//        icon: Icon(Icons.format_list_bulleted),
+//        title: Text("リスト"),
+//      ),
+//      BottomNavigationBarItem(
+//        icon: Icon(Icons.show_chart),
+//        title: Text("グラフ"),
+//      ),
+//    ];
+//  }
 
   TextEditingController _controller;
 
@@ -27,8 +48,6 @@ class _InputConditionState extends State<InputCondition> {
   int _numberOfExercise = 0;
   int _numberOfStress = 0;
 
-  String _titleText = "日付入力";
-
   @override
   void initState() {
     super.initState();
@@ -42,31 +61,44 @@ class _InputConditionState extends State<InputCondition> {
   }
 
   void _setMenuItems() {
-    _menuItems
-      ..add(DropdownMenuItem(
-        value: _menuItem_0,
-        child: Text("ー"),
-      ))
-      ..add(DropdownMenuItem(
-          value: _menuItem_1, child: Text(_menuItem_1.toString())))
-      ..add(DropdownMenuItem(
-          value: _menuItem_2, child: Text(_menuItem_2.toString())))
-      ..add(DropdownMenuItem(
-          value: _menuItem_3, child: Text(_menuItem_3.toString())))
-      ..add(DropdownMenuItem(
-          value: _menuItem_4, child: Text(_menuItem_4.toString())))
-      ..add(DropdownMenuItem(
-          value: _menuItem_5, child: Text(_menuItem_5.toString())));
+    _menuItems..add(DropdownMenuItem(
+      value: _menuItem_0,
+      child: Text("ー", style: TextStyle(color: Colors.black),),
+    ))..add(DropdownMenuItem(
+        value: _menuItem_1,
+        child: Text(_menuItem_1.toString(),
+          style: TextStyle(color: Colors.black),)))..add(DropdownMenuItem(
+        value: _menuItem_2,
+        child: Text(_menuItem_2.toString(),
+          style: TextStyle(color: Colors.black),)))..add(DropdownMenuItem(
+        value: _menuItem_3,
+        child: Text(_menuItem_3.toString(),
+          style: TextStyle(color: Colors.black),)))..add(DropdownMenuItem(
+        value: _menuItem_4,
+        child: Text(_menuItem_4.toString(),
+          style: TextStyle(color: Colors.black),)))..add(DropdownMenuItem(
+        value: _menuItem_5,
+        child: Text(
+          _menuItem_5.toString(), style: TextStyle(color: Colors.black),)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: FlatButton(
-          color: Colors.white30,
-          child: Text(_inputDate, style: TextStyle(fontSize: 20.0),),
-          onPressed: () => _datePicker(context),
+        backgroundColor: Colors.white,
+        title: SizedBox(
+          width: 250.0,
+          child: FlatButton.icon(
+            shape: StadiumBorder(),
+            color: Colors.black45,
+            icon: Icon(Icons.today, color: Colors.white,),
+            label: Text(
+              _inputDate,
+              style: TextStyle(fontSize: 18.0, color: Colors.white),
+            ),
+            onPressed: () => _datePicker(context),
+          ),
         ),
         centerTitle: true,
         actions: <Widget>[
@@ -77,23 +109,53 @@ class _InputConditionState extends State<InputCondition> {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: <Widget>[
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
 //            _conditionDate(),
-            //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。,
-            //TODO できたと思ったけど、やはり思ったように動かない
-            _inputNumbers("肌の調子は？", _numberOfSkin),
-            _inputNumbers("食生活は？", _numberOfMeal),
-            _inputNumbers("排便は？", _numberOfDefecation),
-            _inputSleep(),
-            _inputExercise(),
-            _inputStress(),
-            _inputComment(),
-          ],
+              //TODO 以下のメソッドをリファクタリングしたい。引数で_numbeOfSkinとか渡せればできそうなのに、変数ではなく、値として処理されるため思った挙動にならない。不服だけど今はこのまま進。,
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputSkin("肌の調子は？"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputMeal("食生活は？"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputDefecation("排便は？"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputSleep("睡眠は？"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputExercise("運動は？"),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 30.0),
+                child: _inputStress("ストレスは？"),
+              ),
+              Container(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "メモ",
+                    style: TextStyle(fontSize: 15.0),
+                  )),
+              _inputComment(),
+              SizedBox(height: 60.0,),
+              _buttonOfRegister(),
+            ],
+          ),
         ),
       ),
+      bottomNavigationBar: OriginalBottomNavigationBar(screens: 0,),
+//      bottomNavigationBar: bottomNavigationBar(),
     );
   }
 
@@ -114,44 +176,38 @@ class _InputConditionState extends State<InputCondition> {
     datetime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(DateTime.now().year),
-      lastDate: DateTime(DateTime.now().year + 6),
+      firstDate: DateTime(DateTime
+          .now()
+          .year),
+      lastDate: DateTime(DateTime
+          .now()
+          .year + 6),
     );
 
     if (datetime != null) {
       setState(() {
-        _inputDate = DateFormat("yyyy/MM/dd/(EEE)").format(datetime);
+        _inputDate = DateFormat("yyyy/MM/dd/EEE").format(datetime);
       });
     }
   }
 
-  Widget _inputNumbers(String text, int data) {
+  Widget _inputSkin(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
+          Icon(Icons.face),
           _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
               child: DropdownButton(
                 items: _menuItems,
-                value: data,
+                value: _numberOfSkin,
                 style: TextStyle(fontSize: 20.0),
                 onChanged: (selectedValue) {
                   setState(() {
-                    if (data == _numberOfSkin) {
-                      _numberOfSkin = selectedValue;
-                      return;
-                    }
-                    if (data == _numberOfMeal){
-                      _numberOfMeal = selectedValue;
-                      return;
-                    }
-                    if (data == _numberOfDefecation) {
-                      _numberOfDefecation = selectedValue;
-                      return;
-                    }
+                    _numberOfSkin = selectedValue;
                   });
                 },
               ),
@@ -162,12 +218,13 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _inputMealCondition() {
+  Widget _inputMeal(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("食生活は？"),
+          Icon(Icons.fastfood),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -188,12 +245,13 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _inputDefecation() {
+  Widget _inputDefecation(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("排便は？"),
+          Icon(Icons.airline_seat_legroom_normal),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -214,12 +272,13 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _inputSleep() {
+  Widget _inputSleep(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("睡眠は？"),
+          Icon(Icons.local_hotel),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -240,12 +299,13 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _inputExercise() {
+  Widget _inputExercise(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("運動は？"),
+          Icon(Icons.directions_run),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -266,12 +326,13 @@ class _InputConditionState extends State<InputCondition> {
     );
   }
 
-  Widget _inputStress() {
+  Widget _inputStress(String text) {
     return SizedBox(
       width: double.infinity,
       child: Row(
         children: <Widget>[
-          _textPart("ストレスは？"),
+          Icon(Icons.cloud),
+          _textPart(text),
           Expanded(
             flex: 1,
             child: Center(
@@ -295,21 +356,98 @@ class _InputConditionState extends State<InputCondition> {
   Widget _textPart(String text) {
     return Expanded(
         flex: 2,
-        child: Center(
-            child: Text(
-          text,
-          style: TextStyle(fontSize: 20.0),
-        )));
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12.0),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 15.0),
+          ),
+        ));
   }
 
   Widget _inputComment() {
-    return SizedBox(
-      width: double.infinity,
-      child: TextField(
-        keyboardType: TextInputType.text,
-        controller: _controller,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 18.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: TextField(
+          keyboardType: TextInputType.text,
+          controller: _controller,
+        ),
       ),
     );
   }
+
+  Widget _buttonOfRegister() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: RaisedButton.icon(
+            shape: StadiumBorder(),
+            color: Colors.pink,
+            onPressed: () => print("登録"),
+            icon: Icon(Icons.done_outline, color: Colors.white,),
+            label: Text("登録", style: TextStyle(fontSize: 25.0, color: Colors.white, fontWeight: FontWeight.w600),)),
+      ),
+    );
+  }
+
+//TODO bottomNavigationBarはclassで外出しして
+//  Widget bottomNavigationBar() {
+//    return BottomNavigationBar(
+//      items: myBottomNavigationBar(),
+//      currentIndex: _screens,
+//      onTap: (index) {
+//        if (index == 0) return;
+//        if (index == 1) {
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => ListScreen()));
+//        }
+//        if (index == 2) {
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => ChartScreen()));
+//        }
+//      },
+//    );
+//  }
+
+
+//TODO リファクタリングできたと思ったけど思った通り動かず・・・いつか解決したい
+//  Widget _inputNumbers(String text, int data) {
+//    return SizedBox(
+//      width: double.infinity,
+//      child: Row(
+//        children: <Widget>[
+//          _textPart(text),
+//          Expanded(
+//            flex: 1,
+//            child: Center(
+//              child: DropdownButton(
+//                items: _menuItems,
+//                value: data,
+//                style: TextStyle(fontSize: 20.0),
+//                onChanged: (selectedValue) {
+//                  if (data == _numberOfSkin) {
+//                    _numberOfSkin = selectedValue;
+//                    return;
+//                  }
+//                  if (data == _numberOfMeal){
+//                    _numberOfMeal = selectedValue;
+//                    return;
+//                  }
+//                  if (data == _numberOfDefecation) {
+//                    _numberOfDefecation = selectedValue;
+//                    return;
+//                  }
+//                  print(data);
+//                  setState(() {
+//                  });
+//                },
+//              ),
+//            ),
+//          )
+//        ],
+//      ),
+//    );
+//  }
 
 }
